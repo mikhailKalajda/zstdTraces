@@ -71,6 +71,7 @@
 #  include "zstd_legacy.h"
 #endif
 
+#include "../timings.h"
 
 /*-*************************************************************
 *   Context management
@@ -706,6 +707,8 @@ static size_t ZSTD_decompressMultiFrame(ZSTD_DCtx* dctx,
 
     DEBUGLOG(5, "ZSTD_decompressMultiFrame");
     assert(dict==NULL || ddict==NULL);  /* either dict or ddict set, not both */
+
+    TimeStampStopMeasure(NULL, "1", "2");
 
     if (ddict) {
         dict = ZSTD_DDict_dictContent(ddict);
