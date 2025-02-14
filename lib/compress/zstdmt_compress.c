@@ -29,6 +29,8 @@
 #include "zstd_ldm.h"
 #include "zstdmt_compress.h"
 
+#include "../timings.h"
+
 /* Guards code to support resizing the SeqPool.
  * We will want to resize the SeqPool to save memory in the future.
  * Until then, comment the code out since it is unused.

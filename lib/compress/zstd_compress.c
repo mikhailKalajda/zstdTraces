@@ -29,6 +29,8 @@
 #include "zstd_opt.h"
 #include "zstd_ldm.h"
 
+#include "../timings.h"
+
 
 /*-*************************************
 *  Helper functions
