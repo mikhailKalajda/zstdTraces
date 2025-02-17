@@ -10,7 +10,7 @@ static const char* getLogFilePath() {
     return s == NULL ? "/home/mike/zstd_log/zstd.log" : s;
 }
 
-void TimeStampStopMeasure(struct timespec *start_time, const char* func_name){
+void TimeStampStopMeasure(struct timespec *start_time, const char* func_name, const char* add_info){
     FILE *fp = fopen(getLogFilePath(), "ab");
     if (fp != NULL)
     {
@@ -22,7 +22,7 @@ void TimeStampStopMeasure(struct timespec *start_time, const char* func_name){
         //long ldiff = end_time.tv_nsec - start_time->tv_nsec;
         
         char buf[10000];
-        sprintf(buf, "%lf\t%s\n", diff, func_name);
+        sprintf(buf, "%lf\t%s\t%s\n", diff, func_name, add_info);
         fputs(buf, fp);
         fclose(fp);
     }

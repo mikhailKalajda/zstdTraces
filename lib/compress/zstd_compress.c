@@ -29,8 +29,8 @@
 #include "zstd_opt.h"
 #include "zstd_ldm.h"
 
+#include <stdio.h>
 #include "../timings.h"
-
 
 /*-*************************************
 *  Helper functions
@@ -3466,11 +3466,13 @@ size_t ZSTD_compress(void* dst, size_t dstCapacity,
 {
     TIMING_START
     size_t result;
+    char ret_args[1000];
     ZSTD_CCtx ctxBody;
     ZSTD_initCCtx(&ctxBody, ZSTD_defaultCMem);
     result = ZSTD_compressCCtx(&ctxBody, dst, dstCapacity, src, srcSize, compressionLevel);
     ZSTD_freeCCtxContent(&ctxBody);   /* can't free ctxBody itself, as it's on stack; free only heap content */
-    TIMING_RET
+    snprintf(ret_args, sizeof(ret_args)/sizeof(char), "dstCapacity=%i,srcSize=%i,compressionLevel=%i, returns %i", (int)dstCapacity, (int)srcSize, compressionLevel, (int)result);
+    TIMING_RET_ARGS(ret_args)
     return result;
     TIMING_STOP
 }

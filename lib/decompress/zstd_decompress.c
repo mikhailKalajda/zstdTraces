@@ -71,6 +71,7 @@
 #  include "zstd_legacy.h"
 #endif
 
+#include <stdio.h>
 #include "../timings.h"
 
 /*-*************************************************************
@@ -970,17 +971,19 @@ size_t ZSTD_decompress(void* dst, size_t dstCapacity, const void* src, size_t sr
     TIMING_START
 #if defined(ZSTD_HEAPMODE) && (ZSTD_HEAPMODE>=1)
     size_t regenSize;
+    char ret_args[1000];
     ZSTD_DCtx* const dctx = ZSTD_createDCtx();
     RETURN_ERROR_IF(dctx==NULL, memory_allocation);
     regenSize = ZSTD_decompressDCtx(dctx, dst, dstCapacity, src, srcSize);
     ZSTD_freeDCtx(dctx);
-    TIMING_RET
+    snprintf(ret_args, sizeof(ret_args)/sizeof(char), "%i", (int)regenSize);
+    TIMING_STOP_ARGS(ret_args)
     return regenSize;
 #else   /* stack mode */
     ZSTD_DCtx dctx;
     ZSTD_initDCtx_internal(&dctx);
-    TIMING_RET
-    return ZSTD_decompressDCtx(&dctx, dst, dstCapacity, src, srcSize);
+    snprintf(ret_args, sizeof(ret_args)/sizeof(char), "%i", (int)regenSize);
+    TIMING_STOP_ARGS(ret_args)
 #endif
     TIMING_STOP
 }
